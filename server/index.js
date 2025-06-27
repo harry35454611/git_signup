@@ -12,9 +12,13 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Determine if we're in production
+const isProduction = process.env.NODE_ENV === 'production';
+const CLIENT_URL = isProduction ? 'https://gitsignup.netlify.app' : 'http://localhost:5173';
+
 // Middleware
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: CLIENT_URL,
   credentials: true
 }));
 
@@ -27,8 +31,9 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: false, // Set to true in production with HTTPS
-    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    secure: isProduction, // Use secure cookies in production
+    maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    sameSite: isProduction ? 'none' : 'lax' // Allow cross-site cookies in production
   }
 }));
 

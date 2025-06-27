@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { Repository, FileItem } from '../types';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+// Use environment variable or fallback to production API URL
+const API_URL = import.meta.env.VITE_API_URL || 'https://your-backend-api-url.com';
 
 // Configure axios defaults
 axios.defaults.withCredentials = true;
